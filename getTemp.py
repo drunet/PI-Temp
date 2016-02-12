@@ -25,7 +25,7 @@ def readDS18B20( sensorId):
        text1 = filer.read()
        filer.close()
        line1 = text1.split("\n")[0]
-       crc    = line1.split("crc=")[1]
+       crc = line1.split("crc=")[1]
        if crc.find("YES")>=0:
         break;
      except:
