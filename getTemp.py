@@ -21,7 +21,7 @@ def readDS18B20(sensorId):
    retry=0
    while(1):
      try:
-       filer = open( "/sys/bus/w1/devices/" + sensorId + "/w1_slave")
+       filer = open("/sys/bus/w1/devices/" + sensorId + "/w1_slave")
        text1 = filer.read()
        filer.close()
        line1 = text1.split("\n")[0]
