@@ -13,12 +13,8 @@ from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 sys.path.append("/usr/local/bin/")
 
-
 DS18B20_SERIAL_NUMBER="28-xxxxxxxxxx"
 
-
-
-#Function to read DS18B20 cpu
 def readDS18B20( sensorId):
    if sensorId == None:
      return None
@@ -45,8 +41,6 @@ def readDS18B20( sensorId):
    text2 = line2.split(" ")[9]
    return (float(text2[2:])/1000.0)
 
-
-
 #read sensor again but now keep the data
 ds18b20Temp = readDS18B20(DS18B20_SERIAL_NUMBER)
 if ds18b20Temp != None:
@@ -57,8 +51,8 @@ now = datetime.datetime.now().strftime('%H:%M')
 #verify if the captor is working
 if ds18b20Temp == None:
   msg = MIMEMultipart()
-  msg['From'] = 'xxx@gmail.com'
-  msg['To'] = 'yyy@gmail.com'
+  msg['From'] = 'XXXX@gmail.com'
+  msg['To'] = 'XXXX@txt.att.net'
   msg['Subject'] = 'Sensor problem' 
   message = ("The sensor is not working")
   msg.attach(MIMEText(message))
@@ -73,8 +67,8 @@ if ds18b20Temp == None:
 #send mail if temperature > 20
 if ds18b20Temp >= 20:
   msg = MIMEMultipart()
-  msg['From'] = 'xxx@gmail.com'
-  msg['To'] = 'yyy@gmail.com'
+  msg['From'] = 'XXXX@gmail.com'
+  msg['To'] = 'XXXX@txt.att.net'
   msg['Subject'] = 'Temperature too high !'
   message = ("Temperature is over 20°c. It's {}.The temperature is {}°c".format(now,ds18b20Temp))
   msg.attach(MIMEText(message))
