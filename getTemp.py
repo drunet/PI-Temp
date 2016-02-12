@@ -39,7 +39,7 @@ def readDS18B20( sensorId):
    #ok Valid temperature
    line2 = text1.split("\n")[1]
    text2 = line2.split(" ")[9]
-   return (float(text2[2:])/1000.0)
+   return (float((text2[2:])/1000.0)*9/5+32)
 
 #read sensor again but now keep the data
 ds18b20Temp = readDS18B20(DS18B20_SERIAL_NUMBER)
@@ -48,13 +48,13 @@ if ds18b20Temp != None:
 
 now = datetime.datetime.now().strftime('%H:%M')
 
-#verify if the captor is working
+#verify if the sensor is working
 if ds18b20Temp == None:
   msg = MIMEMultipart()
   msg['From'] = 'XXXX@gmail.com'
   msg['To'] = 'XXXX@txt.att.net'
   msg['Subject'] = 'Sensor problem' 
-  message = ("The sensor is not working")
+  message = ("The f'ing sensor isn't working")
   msg.attach(MIMEText(message))
   mailserver = smtplib.SMTP('smtp.gmail.com', 587)
   mailserver.ehlo()
@@ -64,13 +64,13 @@ if ds18b20Temp == None:
   mailserver.sendmail('xxx@gmail.com', 'xxx@gmail.com', msg.as_string())
   mailserver.quit()
   
-#send mail if temperature > 20
-if ds18b20Temp >= 20:
+#send mail if temperature < 55
+if ds18b20Temp <= 55:
   msg = MIMEMultipart()
   msg['From'] = 'XXXX@gmail.com'
   msg['To'] = 'XXXX@txt.att.net'
-  msg['Subject'] = 'Temperature too high !'
-  message = ("Temperature is over 20°c. It's {}.The temperature is {}°c".format(now,ds18b20Temp))
+  msg['Subject'] = 'Temperature too low !'
+  message = ("Temperature is under 55°f. It's {}.The temperature is {}°f".format(now,ds18b20Temp))
   msg.attach(MIMEText(message))
   mailserver = smtplib.SMTP('smtp.gmail.com', 587)
   mailserver.ehlo()
