@@ -64,7 +64,7 @@ if ds18b20Temp == None:
   mailserver.sendmail('xxx@gmail.com', 'xxx@gmail.com', msg.as_string())
   mailserver.quit()
   
-#send mail if temperature < 55
+#send text msg if temperature < 55
 if ds18b20Temp <= 55:
   msg = MIMEMultipart()
   msg['From'] = 'XXXX@gmail.com'
