@@ -23,7 +23,7 @@ def tempRead():
     temp_output = lines[1].find('t=')
     if temp_output != -1:
         temp_string = lines[1].strip()[temp_output+2:]
-        temp_c = float(temp_string)/1000.0
+        temp_c = (float(temp_string)/1000.0*9/5+32)
     return round(temp_c,1)
  
 while True:
