@@ -15,7 +15,7 @@ sys.path.append("/usr/local/bin/")
 
 DS18B20_SERIAL_NUMBER="28-xxxxxxxxxx"
 
-def readDS18B20( sensorId):
+def readDS18B20(sensorId):
    if sensorId == None:
      return None
    retry=0
