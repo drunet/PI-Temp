@@ -6,7 +6,7 @@ from time import strftime
  
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
-temp_sensor = '/sys/bus/w1/devices/28-00000622fd44/w1_slave'
+temp_sensor = '/sys/bus/w1/devices/28-0215658c80ff/w1_slave'
  
 def tempRead():
         t = open(temp_sensor, 'r')
