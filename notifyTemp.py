@@ -1,50 +1,30 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
-import pigpio
-import time
 import os
-import sys
+import time
 import datetime
-import subprocess
-import smbus
-import random
-import smtplib
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
-sys.path.append("/usr/local/bin/")
-
-DS18B20_SERIAL_NUMBER="28-xxxxxxxxxx"
-
-def readDS18B20(sensorId):
-   if sensorId == None:
-     return None
-   retry=0
-   while(1):
-     try:
-       filer = open("/sys/bus/w1/devices/" + sensorId + "/w1_slave")
-       text1 = filer.read()
-       filer.close()
-       line1 = text1.split("\n")[0]
-       crc = line1.split("crc=")[1]
-       if crc.find("YES")>=0:
-        break;
-     except:
-        #ok error, loop it 
-        pass
-
-     retry = retry + 1
-     if retry >= 5 :
-       return None
-    
-   #ok Valid temperature
-   line2 = text1.split("\n")[1]
-   text2 = line2.split(" ")[9]
-   return (float((text2[2:])/1000.0)*9/5+32)
-
-#read sensor again but now keep the data
-ds18b20Temp = readDS18B20(DS18B20_SERIAL_NUMBER)
-if ds18b20Temp != None:
-   ds18b20Temp = round(ds18b20Temp * 2.0 ,0)/2
+import glob
+import MySQLdb
+from time import strftime
+ 
+os.system('modprobe w1-gpio')
+os.system('modprobe w1-therm')
+temp_sensor = '/sys/bus/w1/devices/28-00000622fd44/w1_slave'
+ 
+# Variables for MySQL
+db = MySQLdb.connect(host="localhost", user="root",passwd="password", db="temp_database")
+cur = db.cursor()
+ 
+def tempRead():
+    t = open(temp_sensor, 'r')
+    lines = t.readlines()
+    t.close()
+ 
+    temp_output = lines[1].find('t=')
+    if temp_output != -1:
+        temp_string = lines[1].strip()[temp_output+2:]
+        temp_c = (float(temp_string)/1000.0*9/5+32)
+    return round(temp_c,1)
 
 now = datetime.datetime.now().strftime('%H:%M')
 
