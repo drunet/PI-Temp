@@ -20,11 +20,18 @@ def tempRead():
                 temp_string = lines[1].strip()[temp_output+2:]
                 temp_c = (float(temp_string)/1000.0*9/5+32)
         return round(temp_c,1)
+ 
+while True:
+    temp = tempRead()
+    print temp
+    datetimeWrite = (time.strftime("%Y-%m-%d ") + time.strftime("%H:%M:%S"))
+    print datetimeWrite
+    break
 
 now = datetime.datetime.now().strftime('%H:%M')
 
 #verify if the sensor is working
-if ds18b20Temp == None:
+if temp == None:
   msg = MIMEMultipart()
   msg['From'] = 'XXXX@gmail.com'
   msg['To'] = 'XXXX@txt.att.net'
@@ -40,7 +47,7 @@ if ds18b20Temp == None:
   mailserver.quit()
   
 #send text msg if temperature < 55
-if ds18b20Temp <= 55:
+if temp <= 55:
   msg = MIMEMultipart()
   msg['From'] = 'XXXX@gmail.com'
   msg['To'] = 'XXXX@txt.att.net'
